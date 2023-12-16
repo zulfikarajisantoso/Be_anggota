@@ -6,12 +6,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// const pool = new Pool({
+//   host: "localhost",
+//   database: "newBe",
+//   password: "horus",
+//   user: "postgres",
+//   port: 5432, // Default PostgreSQL port
+// });
+
 const pool = new Pool({
-  host: "localhost",
-  database: "newBe",
-  password: "horus",
-  user: "postgres",
-  port: 5432, // Default PostgreSQL port
+  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 });
 
 const addData = (req, res) => {
