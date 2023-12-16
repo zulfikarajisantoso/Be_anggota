@@ -14,20 +14,30 @@ const pool = new Pool({
   port: 5432, // Default PostgreSQL port
 });
 
-// pool.connect((err) => {
-//     if(err){
-//         console.log(err);
-//     }else{
-//         console.log("erhasil");
-//     }
-// })
-
 const addData = (req, res) => {
-  const { nik, nama_relawan, koordinator, tandeman, notelp } = req.body;
+  const {
+    nik,
+    nama_relawan,
+    koordinator,
+    tandeman,
+    notelp,
+    no_tps,
+    no_kecamatan,
+    no_kabupaten,
+  } = req.body;
 
   const query =
-    "INSERT INTO data_anggota (nik, nama_relawan, koordinator, tandeman, notelp) VALUES ($1, $2, $3, $4, $5 ) RETURNING *";
-  const values = [nik, nama_relawan, koordinator, tandeman, notelp];
+    "INSERT INTO data_anggota (nik, nama_relawan, koordinator, tandeman, notelp,   no_tps, no_kecamatan, no_kabupaten) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 ) RETURNING *";
+  const values = [
+    nik,
+    nama_relawan,
+    koordinator,
+    tandeman,
+    notelp,
+    no_tps,
+    no_kecamatan,
+    no_kabupaten,
+  ];
 
   pool.query(query, values, (error, results) => {
     if (error) {
