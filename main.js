@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/addData", db.addData);
+app.get("/getData", db.getData);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);

@@ -6,17 +6,17 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// const pool = new Pool({
-//   host: "localhost",
-//   database: "newBe",
-//   password: "horus",
-//   user: "postgres",
-//   port: 5432, // Default PostgreSQL port
-// });
-
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+  host: "localhost",
+  database: "newBe",
+  password: "horus",
+  user: "postgres",
+  port: 5432, // Default PostgreSQL port
 });
+
+// const pool = new Pool({
+//   connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+// });
 
 const addData = (req, res) => {
   const {
@@ -52,6 +52,23 @@ const addData = (req, res) => {
   });
 };
 
+const getData = async(req, res) => {
+  
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM data_anggota');
+    const data = result.rows;
+    client.release();
+
+    res.json(data);
+  } catch (err) {
+    console.error('Error executing query', err);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
 module.exports = {
   addData,
+  getData
 };
